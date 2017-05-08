@@ -1,0 +1,52 @@
+#!/bin/env ruby
+
+require "rubygems"
+require "bundler/setup"
+require "rss"
+require "open-uri"
+require "nokogiri"
+require "rack"
+require "googl"
+
+def shorten_url(url)
+  case url
+    # Remove www. from URLs that can handle it
+    when /^https?:\/\/www\.(?:imdb|bbc)\./
+      url.gsub(/\/\/www\./, "//")
+
+    # Use shorthand YouTube URLs
+    when /^https?:\/\/(?:www\.)?youtube\.com\/watch\?/
+      query = Rack::Utils.parse_query(URI.parse(url).query)
+      "https://youtu.be/#{query["v"]}"
+
+    # Keep Wikipedia URLs intact
+    when /https?:\/\/(?:..\.)?wikipedia\.org/
+      url
+
+    # Use goo.gl for long URLs
+    else
+      url.length > 42 ? Googl.shorten(url) : url rescue url
+  end
+end
+
+PIZZEL_RSS = "http://www.pizzelpodcast.com/?format=rss"
+
+feed = open(PIZZEL_RSS) { |rss| RSS::Parser.parse(rss) }
+
+ep = feed.items.first
+
+puts ep.title, "\n"
+
+doc = Nokogiri::HTML(ep.description)
+
+# Description
+puts doc.css("p").map(&:text).join("\n\n")
+
+# Notes
+puts "\nNotas del episodio:\n\n"
+doc.css("li a[href]").each do |link|
+  puts "#{link.text}: #{shorten_url(link[:href])}"
+end
+
+puts "\nEscuchá este episodio en nuestro sitio:"
+puts ep.link
