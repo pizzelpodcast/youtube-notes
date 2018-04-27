@@ -29,7 +29,7 @@ def shorten_url(url)
   end
 end
 
-PIZZEL_RSS = "http://www.pizzelpodcast.com/?format=rss"
+PIZZEL_RSS = "https://www.pizzelpodcast.com/?format=rss"
 
 feed = open(PIZZEL_RSS) { |rss| RSS::Parser.parse(rss) }
 
