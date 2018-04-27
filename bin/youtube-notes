@@ -33,7 +33,9 @@ PIZZEL_RSS = "https://www.pizzelpodcast.com/?format=rss"
 
 feed = open(PIZZEL_RSS) { |rss| RSS::Parser.parse(rss) }
 
-ep = feed.items.first
+ep_step = (ARGV[0].to_i || 0)
+
+ep = feed.items[ep_step]
 
 puts ep.title, "\n"
 
