@@ -47,8 +47,22 @@ puts doc.css("p").map(&:text).join("\n\n")
 # Notes
 puts "\nNotas del episodio:\n\n"
 doc.css("li a[href]").each do |link|
-  puts "#{link.text}: #{shorten_url(link[:href])}"
+  puts "▷ #{link.text}\n#{shorten_url(link[:href])}\n\n"
 end
 
-puts "\nEscuchá este episodio en nuestro sitio:"
+puts "- - -\n"
+
+puts "\nEscuchá este episodio en nuestro sitio"
 puts ep.link
+
+puts <<-EOS
+
+Suscribite al podcast en iTunes
+https://itunes.apple.com/ar/podcast/pizzel-podcast/id1092904384
+
+Suscribite al podcat en iVoox
+https://www.ivoox.com/podcast-pizzel_sq_f1280950_1.html
+
+Javier en YouTube
+https://www.youtube.com/user/jzmusica
+EOS
