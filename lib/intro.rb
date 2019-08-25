@@ -72,7 +72,6 @@ module Pizzel
   end
 end
 
-Dir["/home/pilaf/projects/pizzel/eps/ep*/pizzel-ep*-96kbps.mp3"].sort.each do |f|
-  #puts f
-  #puts "#{File.basename(f)}: #{Pizzel::IntroFinder.new(f).offset}"
-end
+#Dir["/home/pilaf/projects/pizzel/eps/ep*/pizzel-ep*-96kbps.mp3"].sort.each do |f|
+#  puts "#{File.basename(f)}: #{Pizzel::IntroFinder.new(f).offset}"
+#end
